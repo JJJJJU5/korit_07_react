@@ -1,11 +1,15 @@
 import './App.css'
-import MyForm4 from './MyForm4'
+import SimpleUserForm from './SimpleUserForm'
+
+
 function App() {
+
+
+
   return (
     <>
-    <MyForm4 />
+    <SimpleUserForm />
     </>
-    
   )
 }
 
