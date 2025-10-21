@@ -3,12 +3,12 @@ import { AppBar, Toolbar, Typography, Container, CssBaseline } from '@mui/materi
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import CarList from './components/Carlist.tsx'
 
+
 const queryClient = new QueryClient();
 
 function App() {
 
   return (
-
     <Container maxWidth="xl" >
       <CssBaseline />
       <AppBar position='static'>
