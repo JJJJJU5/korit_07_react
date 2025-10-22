@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { CarResponse, Car, CarEntity } from "../types";
-import { Dialog, DialogActions, DialogContent , Button , IconButton, Icon } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, Button, IconButton, Tooltip } from "@mui/material";
 import CarDialogContent from "./CarDialogContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCar } from "../api/carapi";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import { SpaceBar } from "@mui/icons-material";
 
 type FormProps = {
   cardata: CarResponse
@@ -47,7 +48,8 @@ function EditCar({ cardata }: FormProps) {
       // price : cardata.price,
     })
   };
-  const handleClose = () => {setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
     setCar({
       brand: "",
       model: "",
@@ -58,32 +60,43 @@ function EditCar({ cardata }: FormProps) {
     })
   };
   const handleSave = () => {
-    const url = cardata._links.self.href;
-    const CarEntity: CarEntity = { car, url };
-    mutate(CarEntity);
-
-    setOpen(false)
+    if (window.confirm(`${cardata.brand}의 ${cardata.model}를수정하시겠습니까?`)) {
+      const url = cardata._links.self.href;
+      const CarEntity: CarEntity = { car, url };
+      mutate(CarEntity);
+      setOpen(false)
+    }
   };
   // AddCar.tsx에서 그대로 복사
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCar({ ...car, [e.target.name]: e.target.value })
   }
 
+  const keyEvent = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleSave();
+    }
+  }
+
+
   return (
     <>
-      <IconButton aria-label="" size="small" onClick={handleOpen}>
-        <EditRoundedIcon></EditRoundedIcon>
-      </IconButton>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogContent> 수정</DialogContent>
-        <CarDialogContent car={car} handleChange={handleChange} />
-        <DialogActions>
-          <Button onClick={handleSave}>저장</Button>
-          <Button onClick={handleClose}>취소</Button>
-        </DialogActions>
-      </Dialog>
+      <Tooltip title="수정">
+        <IconButton aria-label="" size="small" onClick={handleOpen}>
+          <EditRoundedIcon></EditRoundedIcon>
+        </IconButton>
+      </Tooltip>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogContent> 수정</DialogContent>
+          <CarDialogContent car={car} handleChange={handleChange} />
+          <DialogActions>
+            <Button onClick={handleSave}>저장</Button>
+            <Button onClick={handleClose}>취소</Button>
+          </DialogActions>
+        </Dialog>
     </>
-    )
+  )
 }
 
 export default EditCar;

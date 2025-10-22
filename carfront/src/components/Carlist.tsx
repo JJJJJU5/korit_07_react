@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCar, getCars } from "../api/carapi";
 import { DataGrid, GridColDef, GridCellParams, GridToolbar } from "@mui/x-data-grid";
-import { Snackbar, IconButton } from "@mui/material";
+import { Snackbar, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
@@ -38,13 +38,16 @@ function Carlist() {
     {
       field: 'delete', headerName: "", width: 150, sortable: false, filterable: false, hideable: false, disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <IconButton aria-label="삭제" size="small" onClick={() => {
-          if (window.confirm(`${params.row.brand}의 ${params.row.model} 자동차를 삭제하시겠습니까?`))
-            mutate(params.row._links.self.href)
-        }
-        }
-        > <RemoveCircleRoundedIcon fontSize="medium"></RemoveCircleRoundedIcon>
-        </IconButton>)
+        <Tooltip title="삭제">
+          <IconButton aria-label="삭제" size="small" onClick={() => {
+            if (window.confirm(`${params.row.brand}의 ${params.row.model} 자동차를 삭제하시겠습니까?`))
+              mutate(params.row._links.self.href)
+          }
+          }
+          > <RemoveCircleRoundedIcon fontSize="medium"></RemoveCircleRoundedIcon>
+          </IconButton>
+        </Tooltip>
+      )
     }
   ];
 
@@ -69,8 +72,10 @@ function Carlist() {
           rows={data}
           columns={columns}
           getRowId={(row) => row._links.self.href}
-          slots={{ toolbar: GridToolbar }}
-        />
+          slots={{ toolbar: GridToolbar }}>
+
+        </DataGrid>
+
         <Snackbar
           open={open}
           autoHideDuration={2000}

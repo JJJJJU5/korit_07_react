@@ -28,6 +28,6 @@ export type Car = {
 }
 
 export type CarEntity = {
-  car : Car;
-  url : string;
+  car: Car;
+  url: string;
 }
