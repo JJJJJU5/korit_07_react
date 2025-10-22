@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar ,Button} from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useMutation,useQueryClient } from "@tanstack/react-query";
 import { addCar } from "../api/carapi";
@@ -51,13 +51,13 @@ function AddCar() {
   
   return (
     <>
-      <button onClick={handleClickOpen}> 추가</button>
+      <Button variant="outlined" onClick={handleClickOpen}> 추가</Button>
       <Dialog open={open}>
         <DialogTitle>차량 추가</DialogTitle>
         <CarDialogContent car={car} handleChange={handleChange} />
         <DialogActions>
-          <button onClick={handleSave}> 저장 | Save </button>
-          <button onClick={handleClickClose}> 취소 | Cancel </button>
+          <Button  onClick={handleSave}> 저장 | Save </Button>
+          <Button onClick={handleClickClose}> 취소 | Cancel </Button>
         </DialogActions>
       </Dialog>
       <Snackbar 
