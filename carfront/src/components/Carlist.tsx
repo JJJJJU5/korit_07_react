@@ -8,6 +8,7 @@ import EditCar from "./EditCar";
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 
 
+
 function Carlist() {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ function Carlist() {
       queryClient.invalidateQueries({ queryKey: ["cars"] });
     }, onError: () => console.log('실패')
   })
+  
 
   const columns: GridColDef[] = [
     { field: 'brand', headerName: '브랜드', width: 150, },

@@ -12,17 +12,14 @@ export type Item = {
 }
 
 function App() {
-  
 
   const [ items, setItems] = useState<Item[]>([]);
-  
   const addItem = (item : Item) => {
     setItems([item, ...items]);
   }
   const DelBtn = (index : number) => {
     setItems(items.filter((_,i) => i !== index ))
   }
-
 
   return (
     <>
@@ -40,11 +37,11 @@ function App() {
             items.map((item, index) =>
               <ListItem key={index} divider>
                 <ListItemText  primary={item.product} secondary={item.amount}></ListItemText>
-                
                 <Button onClick={() => DelBtn(index)}>Delete</Button>
               </ListItem>
             )
           }
+          
           </List>  
       </Container>
     </>
