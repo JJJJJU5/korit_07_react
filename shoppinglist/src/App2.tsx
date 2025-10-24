@@ -1,50 +1,57 @@
 import { Container } from '@mui/material'
-import {AppBar, Toolbar, Typography} from '@mui/material'
+import { AppBar, Toolbar, Typography } from '@mui/material'
 import './App.css'
 import { useState } from 'react';
-import {List, ListItem, ListItemText} from '@mui/material';
-import {Button} from '@mui/material';
+import { List, ListItem, ListItemText } from '@mui/material';
 import AddItem from './AddItem';
+import { Item } from './type';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getItems } from './api/Itemapi';
 
-export type Item = {
-  product : string;
-  amount : string;
-}
 
 function App() {
 
-  const [ items, setItems] = useState<Item[]>([]);
-  const addItem = (item : Item) => {
-    setItems([item, ...items]);
-  }
-  const DelBtn = (index : number) => {
-    setItems(items.filter((_,i) => i !== index ))
-  }
+  const usequery = useQueryClient();
 
-  return (
-    <>
-      <Container>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant='h6'>
-              쇼핑 리스트 Shopping List
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <AddItem addItem={addItem} />
-        <List >
-          {
-            items.map((item, index) =>
-              <ListItem key={index} divider>
-                <ListItemText  primary={item.product} secondary={item.amount}></ListItemText>
-                <Button onClick={() => DelBtn(index)}>Delete</Button>
-              </ListItem>
-            )
-          }
-          
-          </List>  
-      </Container>
-    </>
-  )
-}
+  const [items, setItems] = useState<Item[]>([]);
+
+  const addItem = (item: Item) => {
+    setItems([item, ...items]);}
+  const { data, isSuccess, error } = useQuery({
+    queryKey: ['items'],
+    queryFn: getItems,
+  });
+
+  if (!isSuccess) {
+    return <span>로딩중</span>
+  }
+  else if (error) {
+    return <span>에러</span>
+  }
+  const itemList = data
+
+    return (
+      <>
+        <Container>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant='h6'>
+                쇼핑 리스트 Shopping List
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <AddItem addItem={addItem} />
+          <List >
+            {
+              itemList.map((item, index) =>
+                <ListItem key={index} divider>
+                  <ListItemText primary={item.product} secondary={item.amount}></ListItemText>
+                </ListItem>
+              )
+            }
+          </List>
+        </Container>
+      </>
+    )
+  }
 export default App

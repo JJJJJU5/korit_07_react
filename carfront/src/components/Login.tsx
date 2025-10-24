@@ -15,7 +15,7 @@ function Login() {
     if (sessionStorage.getItem("jwt") !== null) {
       setAuth(true)
     }
-  }, [])
+  }, []) // 자동 로그
 
   const [user, setUser] = useState<User>({
     username: "",
