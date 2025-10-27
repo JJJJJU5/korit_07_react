@@ -19,7 +19,8 @@ export const addItems = async(item:Item) : Promise<ItemResponse[]> => {
   const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/items`, item , getAxiosConfig()) ;
   return res.data
 }
-export const deleteItem = async (id ): Promise<ItemResponse> => {
-  const response = await axios.delete(id ,getAxiosConfig());
-  return response.data
+export const deleteItem = async(link : ItemResponse): Promise<ItemResponse> => {
+    const url = link._links.self.href;
+    const res = await axios.delete(url, getAxiosConfig());
+  return res.data
 }

@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Button, TextField, Stack,} from "@mui/material";
-import App from "./App";
 import AppList from "./AppList";
 
 type User = {
@@ -36,7 +35,7 @@ function Login() {
       setAuth(true);
     }
   }).catch(err => {
-  console.log("실패");})
+  console.log("실패" + err);})
 }
 
   if (isAuth) {

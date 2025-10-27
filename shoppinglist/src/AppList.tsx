@@ -3,11 +3,28 @@ import { AppBar, Toolbar, Typography } from '@mui/material'
 import './App.css'
 import { List, ListItem, ListItemText } from '@mui/material';
 import AddItem from './AddItem';
-import { useQuery, } from '@tanstack/react-query';
-import { getItems } from './api/Itemapi';
+import { useMutation, useQuery, useQueryClient, } from '@tanstack/react-query';
+import { deleteItem, getItems } from './api/Itemapi';
+import { ItemResponse } from './type';
 
 
 function AppList() {
+  
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteItem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['items'] });
+    },
+    onError: () => console.error("항목 삭제 실패")
+  });
+
+  const delBtn = (item: ItemResponse) => {
+    mutate(item);
+  };
+
+    
 
   const { isLoading, isSuccess, data } = useQuery({
     queryKey: ['items'],
@@ -33,8 +50,8 @@ function AppList() {
         <AddItem />
         <List >
           {
-            data.map((item) =>
-              <ListItem key={item.} divider>
+            data.map((item : ItemResponse) =>
+              <ListItem key={item._links.self.href} divider>
                 <ListItemText primary={item.product} secondary={item.amount}></ListItemText>
               </ListItem>
             )

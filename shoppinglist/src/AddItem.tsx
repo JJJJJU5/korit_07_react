@@ -50,10 +50,6 @@ function AddItem() {
             alert("제품명과 수량을 입력해주세요.");
         }
     };
-    
-    const handleDelete = () => {
-        deleteItem()
-    }
 
 
     return (
