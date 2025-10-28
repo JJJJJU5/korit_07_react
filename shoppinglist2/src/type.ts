@@ -1,20 +1,15 @@
-export type ItemResponse = {
-  product: string;
-  amount: string
-  _links: {
-    self: {
-      href: string
-    }
-  };
-  item: {
-    href: string
-  };
-  appUser: {
-    href: string
-  };
+export type AccountCredentials = {
+  username: string;
+  password: string;
 }
-
-export type Item = {
-  product: string;
-  amount: string
+export type ShoppingItem = {
+  id : number;
+  product : string;
+  amount: string;
+  purchased : boolean;
+}
+export type ShoppingItemEntry = {
+  product : string;
+  amount : string;
+  purchased : boolean;
 }
