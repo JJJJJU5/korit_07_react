@@ -44,7 +44,7 @@ function Login({ loginSuccess }: LoginProps) {
 
   // Google 로그인 관련
   const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-    console.log('Google Login Success(Frontend상황에서) : ', credentialResponse);
+    console.log('Google Login Success(Frontend상황에서) : ', {credentialResponse});
     if (credentialResponse.credential) {
       setLoading(true);
       try {

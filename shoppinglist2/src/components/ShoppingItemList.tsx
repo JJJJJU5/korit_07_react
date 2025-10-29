@@ -9,7 +9,7 @@ import EditItem from "../components/EditItem";
 import AddItem1 from "../components/AddItem";
 
 import 'ag-grid-community/styles/ag-theme-material.css'
-import 'ag-grid-community/styles/ag-grid.css'
+
 
 
 

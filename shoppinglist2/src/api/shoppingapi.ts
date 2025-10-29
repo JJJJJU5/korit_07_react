@@ -82,8 +82,11 @@ export const authenticateWithGoogleToken = async(idToken : string): Promise<stri
   console.log('Google Id 토큰을 백엔드로 전송한다.',idToken.substring(0,30) + '...')// 토큰 전체 노출하지 않기 위해 잘라내는 방법
   try {
     // 백엔드에 구현한 Google 토큰 검증 엔드포인트를 호출한다.
+    console.log("asdasdasd1")
     const res = await apiClient.post('/api/auth/google',{idToken});
-    const backendJwt = res.data.token; // 백엔드에서 token field에 JWT를 담아서 반환
+    console.log(res.headers.authorization)
+    const backendJwt = res.headers.authorization; // 백엔드에서 token field에 JWT를 담아서 반환
+
     if(!backendJwt) {throw new Error('백엔드에서 JWT를 보내지 않았습니다.');}
     console.log('JWT가 백엔드로부터 전송됨 ' , backendJwt.substring(0,15)+'...');
     return backendJwt;
